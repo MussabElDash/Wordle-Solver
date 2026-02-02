@@ -4,7 +4,7 @@ import UIKit
 struct GuessRow: Identifiable {
 	let id = UUID()
 	var word: String = ""
-	var colors: [Int] = [0,0,0,0,0] // 0 gray, 1 yellow, 2 green
+	var colors: [Int] = [0, 0, 0, 0, 0]  // 0 gray, 1 yellow, 2 green
 }
 
 struct GuessHistoryRowView: View {
@@ -75,8 +75,7 @@ struct ContentView: View {
 				}
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
 			}
-//			.navigationTitle("Wordle Solver")
-			.navigationBarTitleDisplayMode(.inline)
+			//			.navigationTitle("Wordle Solver")
 			.sheet(isPresented: $showAbout) {
 				AboutView()
 			}
@@ -89,26 +88,27 @@ struct ContentView: View {
 	// MARK: - Layouts
 
 	private var narrowLayout: some View {
-		VStack(spacing : 12) {
-			
-					if solver.candidateCount == solver.answers.count {
-						Text("Best openers (precomputed)")
-							.font(.caption)
-							.foregroundStyle(.secondary)
-							.frame(maxWidth: .infinity, alignment: .center)
-					}
-					Text("Candidates: \(solver.candidateCount)")
-						.font(.headline)
-						.frame(maxWidth: .infinity, alignment: .center)
-					
-					inputArea
-						.frame(maxWidth: .infinity, alignment: .center)
+		VStack(spacing: 12) {
+			if solver.candidateCount == solver.answers.count {
+				Text("Best openers (precomputed)")
+					.font(.caption)
+					.foregroundStyle(.secondary)
+					.frame(maxWidth: .infinity, alignment: .center)
+			}
+			Text("Candidates: \(solver.candidateCount)")
+				.font(.headline)
+				.frame(maxWidth: .infinity, alignment: .center)
 
-					actionButtons
-						.frame(maxWidth: .infinity, alignment: .center)
-			
+			inputArea
+				.frame(maxWidth: .infinity, alignment: .center)
+
+			actionButtons
+				.frame(maxWidth: .infinity, alignment: .center)
+
 			List {
-				let history = Array(rows.dropLast()).filter { $0.word.count == 5 }
+				let history = Array(rows.dropLast()).filter {
+					$0.word.count == 5
+				}
 				if !history.isEmpty {
 					Section("History") {
 						ForEach(history) { r in
@@ -120,7 +120,7 @@ struct ContentView: View {
 				Section("Top Suggestions") {
 					suggestionsRows
 				}
-				
+
 				mainControls
 			}
 			.listStyle(.insetGrouped)
@@ -148,12 +148,21 @@ struct ContentView: View {
 
 				// History gets its own list on iPad/wide
 				List {
-					let history = Array(rows.dropLast()).filter { $0.word.count == 5 }
+					let history = Array(rows.dropLast()).filter {
+						$0.word.count == 5
+					}
 					if !history.isEmpty {
 						Section("History") {
 							ForEach(history) { r in
 								GuessHistoryRowView(row: r)
-									.listRowInsets(EdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12))
+									.listRowInsets(
+										EdgeInsets(
+											top: 6,
+											leading: 12,
+											bottom: 6,
+											trailing: 12
+										)
+									)
 							}
 						}
 					} else {
@@ -161,12 +170,19 @@ struct ContentView: View {
 							Text("No guesses yet")
 								.foregroundStyle(.secondary)
 								.frame(maxWidth: .infinity, alignment: .leading)
-								.listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+								.listRowInsets(
+									EdgeInsets(
+										top: 8,
+										leading: 12,
+										bottom: 8,
+										trailing: 12
+									)
+								)
 						}
 					}
 				}
 			}
-			.frame(minWidth: 360, maxWidth: 420) // left rail width
+			.frame(minWidth: 360, maxWidth: 420)  // left rail width
 
 			// RIGHT column: suggestions list
 			List {
@@ -174,7 +190,7 @@ struct ContentView: View {
 					suggestionsRows
 				}
 			}
-			.headerProminence(.increased) // or remove; preference
+			.headerProminence(.increased)  // or remove; preference
 			.layoutPriority(1)
 			.frame(maxWidth: .infinity)
 		}
@@ -265,15 +281,19 @@ struct ContentView: View {
 
 				Text(String(format: "H: %.2f", s.entropy)).font(.caption)
 				Text("W: \(s.worstBucket)").font(.caption)
-				Text(String(format: "E: %.1f", s.expectedRemaining)).font(.caption)
+				Text(String(format: "E: %.1f", s.expectedRemaining)).font(
+					.caption
+				)
 
 				if s.isCandidate { Text("✓").font(.caption) }
 			}
 			.contentShape(Rectangle())
-			.listRowInsets(EdgeInsets(top: 10, leading: 14, bottom: 10, trailing: 14))
+			.listRowInsets(
+				EdgeInsets(top: 10, leading: 14, bottom: 10, trailing: 14)
+			)
 			.onTapGesture {
 				rows[rows.count - 1].word = s.word.uppercased()
-				rows[rows.count - 1].colors = [0,0,0,0,0]
+				rows[rows.count - 1].colors = [0, 0, 0, 0, 0]
 				UIPasteboard.general.string = s.word.uppercased()
 				let generator = UIImpactFeedbackGenerator(style: .light)
 				generator.impactOccurred()
@@ -294,8 +314,10 @@ struct ContentView: View {
 						Text("About")
 							.font(.title2).bold()
 
-						Text("This app helps you solve Wordle by ranking guesses using information theory and worst-case splitting. After each Wordle guess, enter the color feedback and the solver will narrow candidates and suggest the next best guesses.")
-							.font(.body)
+						Text(
+							"This app helps you solve Wordle by ranking guesses using information theory and worst-case splitting. After each Wordle guess, enter the color feedback and the solver will narrow candidates and suggest the next best guesses."
+						)
+						.font(.body)
 
 						Divider()
 
@@ -303,13 +325,21 @@ struct ContentView: View {
 							.font(.headline)
 
 						VStack(alignment: .leading, spacing: 8) {
-							Text("1) Type a 5-letter guess (only valid allowed words enable Add Guess).")
+							Text(
+								"1) Type a 5-letter guess (only valid allowed words enable Add Guess)."
+							)
 							Text("2) Tap each tile to match Wordle feedback:")
 							Text("   • Gray = letter not in the word")
-							Text("   • Yellow = letter in the word, wrong position")
+							Text(
+								"   • Yellow = letter in the word, wrong position"
+							)
 							Text("   • Green = letter correct position")
-							Text("3) Tap Add Guess to apply feedback and update suggestions.")
-							Text("Undo removes the last submitted guess. Reset starts a new puzzle.")
+							Text(
+								"3) Tap Add Guess to apply feedback and update suggestions."
+							)
+							Text(
+								"Undo removes the last submitted guess. Reset starts a new puzzle."
+							)
 						}
 						.font(.body)
 
@@ -319,10 +349,18 @@ struct ContentView: View {
 							.font(.headline)
 
 						VStack(alignment: .leading, spacing: 8) {
-							Text("H: Entropy — Higher is better. Measures expected information gained (how well the guess splits remaining candidates).")
-							Text("E: Expected Remaining — Lower is better. Average number of candidates left after this guess.")
-							Text("W: Worst Bucket — Lower is better. Worst-case remaining candidates (minimax).")
-							Text("✓ Candidate — This guess is still a possible answer (not just a legal guess).")
+							Text(
+								"H: Entropy — Higher is better. Measures expected information gained (how well the guess splits remaining candidates)."
+							)
+							Text(
+								"E: Expected Remaining — Lower is better. Average number of candidates left after this guess."
+							)
+							Text(
+								"W: Worst Bucket — Lower is better. Worst-case remaining candidates (minimax)."
+							)
+							Text(
+								"✓ Candidate — This guess is still a possible answer (not just a legal guess)."
+							)
 						}
 						.font(.body)
 
@@ -332,9 +370,15 @@ struct ContentView: View {
 							.font(.headline)
 
 						VStack(alignment: .leading, spacing: 8) {
-							Text("Hybrid (Default): minimize E, tie-break by W, then prefer ✓ candidates.")
-							Text("Average (Entropy): maximize H (fast average progress).")
-							Text("Worst-case (Minimax): minimize W (most consistent).")
+							Text(
+								"Hybrid (Default): minimize E, tie-break by W, then prefer ✓ candidates."
+							)
+							Text(
+								"Average (Entropy): maximize H (fast average progress)."
+							)
+							Text(
+								"Worst-case (Minimax): minimize W (most consistent)."
+							)
 						}
 						.font(.body)
 
@@ -343,8 +387,10 @@ struct ContentView: View {
 						Text("Hard mode")
 							.font(.headline)
 
-						Text("When enabled, suggestions are restricted to guesses that satisfy known constraints (similar to Wordle hard mode).")
-							.font(.body)
+						Text(
+							"When enabled, suggestions are restricted to guesses that satisfy known constraints (similar to Wordle hard mode)."
+						)
+						.font(.body)
 					}
 					.padding()
 				}
@@ -386,7 +432,8 @@ struct ContentView: View {
 	}
 
 	private func cycleColor(_ i: Int) {
-		rows[rows.count - 1].colors[i] = (rows[rows.count - 1].colors[i] + 1) % 3
+		rows[rows.count - 1].colors[i] =
+			(rows[rows.count - 1].colors[i] + 1) % 3
 	}
 
 	// MARK: - Actions
@@ -502,20 +549,38 @@ struct ContentView: View {
 
 		absent.subtract(present)
 
-		return WordleSolver.KnownInfo(greens: greens, present: present, absent: absent)
+		return WordleSolver.KnownInfo(
+			greens: greens,
+			present: present,
+			absent: absent
+		)
 	}
 
 	private func recomputeSuggestions() {
 		// If no feedback entered yet (start of game), show precomputed openers instantly
-		if solver.candidateCount == solver.answers.count && rows.count == 1 && (rows.first?.word.isEmpty ?? true) {
+		if solver.candidateCount == solver.answers.count && rows.count == 1
+			&& (rows.first?.word.isEmpty ?? true)
+		{
 			suggestions = openers.prefix(10).map {
-				WordleSolver.Suggestion(word: $0, entropy: 0, expectedRemaining: 0, worstBucket: 0, isCandidate: true, waste: 0)
+				WordleSolver.Suggestion(
+					word: $0,
+					entropy: 0,
+					expectedRemaining: 0,
+					worstBucket: 0,
+					isCandidate: true,
+					waste: 0
+				)
 			}
 			return
 		}
 
 		let known = computeKnownInfo()
-		suggestions = solver.suggest(topK: 10, hardMode: hardMode, mode: mode, known: known)
+		suggestions = solver.suggest(
+			topK: 10,
+			hardMode: hardMode,
+			mode: mode,
+			known: known
+		)
 	}
 }
 
@@ -573,7 +638,11 @@ struct GuessTextFieldTile: View {
 			.textContentType(.oneTimeCode)
 			.disableAutocorrection(true)
 			.onChange(of: text) { _, _ in
-				let cleaned = String(text.uppercased().filter { $0 >= "A" && $0 <= "Z" }.prefix(5))
+				let cleaned = String(
+					text.uppercased().filter { $0 >= "A" && $0 <= "Z" }.prefix(
+						5
+					)
+				)
 				if text != cleaned { text = cleaned }
 			}
 	}
@@ -599,11 +668,13 @@ struct GuessTextFieldTile: View {
 
 func loadWords(named: String) -> [String] {
 	guard let url = Bundle.main.url(forResource: named, withExtension: "txt"),
-		  let data = try? Data(contentsOf: url),
-		  let text = String(data: data, encoding: .utf8) else {
+		let data = try? Data(contentsOf: url),
+		let text = String(data: data, encoding: .utf8)
+	else {
 		return []
 	}
-	return text
+	return
+		text
 		.split(whereSeparator: \.isNewline)
 		.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() }
 		.filter { $0.count == 5 && $0.allSatisfy { $0 >= "a" && $0 <= "z" } }
