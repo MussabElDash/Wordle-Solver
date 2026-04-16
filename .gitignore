@@ -1,0 +1,83 @@
+# -----------------------------
+# Xcode / macOS
+# -----------------------------
+.DS_Store
+*.swp
+*.orig
+
+# Xcode user settings
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
+**/*.xcuserstate
+
+# Xcode build artifacts
+DerivedData/
+build/
+*.moved-aside
+*.xcscmblueprint
+
+# Archives / dSYMs
+*.dSYM
+*.dSYM.zip
+*.dSYM.tar.gz
+*.xcarchive
+
+# Playground
+timeline.xctimeline
+playground.xcworkspace
+
+# -----------------------------
+# Swift Package Manager
+# -----------------------------
+.build/
+Packages/
+Package.resolved
+
+# -----------------------------
+# CocoaPods (if you ever use it)
+# -----------------------------
+Pods/
+Podfile.lock
+
+# -----------------------------
+# Carthage (if you ever use it)
+# -----------------------------
+Carthage/Build/
+
+# -----------------------------
+# fastlane (if you ever use it)
+# -----------------------------
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/
+
+# -----------------------------
+# Code Coverage
+# -----------------------------
+*.gcno
+*.gcda
+*.profdata
+
+# -----------------------------
+# Logs
+# -----------------------------
+*.log
+
+# -----------------------------
+# Secrets / env files
+# -----------------------------
+*.env
+.env.*
+
+# -----------------------------
+# Optional: ignore large generated binaries/data
+# (UNCOMMENT if you don't want these in git)
+# -----------------------------
+# patterns.bin
+# openers.txt
+# answers_clean.txt
+# allowed_combined_sorted.txt
